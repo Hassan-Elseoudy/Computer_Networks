@@ -155,7 +155,7 @@ The fraction of lost packets increases as the traffic intensity increases.
 ### 1.4.3 End-to-End Delay
 Let's now consider the **total delay, from source to destination** (not only the nodal delay). Let's suppose there are *N-1* routers between the source host and the destination host, then the nodal delays accumulate and give an **end-to-end delay**:
 
-$$d_{end-end} = N(d_{proc}+d_{trans}+d_{prop})$$
+<img align="center" src="https://tex.s2cms.ru/svg/d_%7Bend-end%7D%20%3D%20N(d_%7Bproc%7D%2Bd_%7Btrans%7D%2Bd_%7Bprop%7D)" alt="d_{end-end} = N(d_{proc}+d_{trans}+d_{prop})" />
 
 ### 1.4.4 Throughput in Computer Networks
 Another critical performance measure in computer networks is *end-to-end throughput*.
