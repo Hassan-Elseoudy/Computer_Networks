@@ -111,7 +111,7 @@ Much of the evolution of the structure of the Internet is driven by economics an
 
 Today's Internet is complex, consisting of a dozen or so tier-1 ISPs and hundreds of thousands of lower-tier ISPs. The ISPs are diverse in their coverage, with some spanning multiple continents and oceans, and others limited to narrow geographic regions. The lower-tier ISPs connect to the higher-tier ISPs and the higher-tier ISPs interconnect with one another. Users and content providers are customers of lower-tier ISPs and lower-tier ISPs are customers of higher-tier ISPs. Recently, major content providers (Google) have also created their own networks and connect directly into lower-tier ISPs where possible.
 
-![Alt text](network_of_networks.png)
+![network_of_networks](network_of_networks.png)
 
 ## 1.4 Delay, Loss and Throughput in Packet-Switched Networks
 
@@ -122,7 +122,7 @@ As a packet travels from one node (host or router) to the subsequent host along 
 
 #### Types of Delay
 
-![Alt text](type_of_delays.png)
+![type_of_delays](type_of_delays.png)
 
 ##### Processing Delay
 The **processing delay** consists of the time required to examine the packet's header and determine where to direct the packet. It may also include other factors, such as the time needed to check for bit-level errors occurred during transmission.
@@ -155,7 +155,7 @@ The fraction of lost packets increases as the traffic intensity increases.
 ### 1.4.3 End-to-End Delay
 Let's now consider the **total delay, from source to destination** (not only the nodal delay). Let's suppose there are *N-1* routers between the source host and the destination host, then the nodal delays accumulate and give an **end-to-end delay**:
 
-$$ d_{end_end} = N(d_{proc}+d_{trans}+d_{prop})$$
+$$d_{end-end} = N(d_{proc}+d_{trans}+d_{prop})$$
 
 ### 1.4.4 Throughput in Computer Networks
 Another critical performance measure in computer networks is *end-to-end throughput*.
