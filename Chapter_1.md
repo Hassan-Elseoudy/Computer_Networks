@@ -4,8 +4,6 @@
 
 ### 1.1.1 A nuts-and-bolts description
 
-The Internet is a computer networks that interconnects hundreds of millions of computing devices through the world. Today not only computers and workstation are being connected to the network, therefore the term *computer network* may sound a bit dated.
-
 All the devices connected to the Internet are called **hosts** or **end systems**. End systems are connected together by a network of **communication links** and **packets switches**.
 
 Different links can transmit data at different rates, with the **transmission rate** of a link measured in bits/second.
@@ -27,7 +25,6 @@ The Internet can be described as *an infrastructure that provides services to ap
 End systems attached to the Internet provide and **Application Programming Interface (API)** that specifies how a program running on one end system asks the Internet infrastructure to deliver data to a specific destination program running on another end system.
 
 ### 1.1.3 What Is a Protocol?
-All the activity in the Internet that involves two or more communicating remote entities is governed by a protocol.
 
 **A protocol defines the format and the order of messages exchanged between two or more communicating entities, as weel as the actions taken on the trasmission and/or receipt of a message or other event**
 
@@ -62,10 +59,9 @@ Ethernet is by far the most prevalent access technology is corporate, university
 The Internet is increasingly accessed wirelessly: wireless users transmit/receive packets to/from an access point connected into the enterprise's network which in turn is connected to the wired Internet.
 
 #### Wide-Area Wireless Access: 3G and LTE
-Smartphones and Tablets employ the same wireless infrastructure used for cellular telephony to send/receive packets through a base station operated by the cellular network provider. Third generation (3G) wireless and fourth generation (4G) of wide-area network are being deployed. LTE ("Long-Term Evolution") has its root in 3G and can potentially achieve rates in excess of 10 Mbps.
+Smartphones and Tablets employ the same wireless infrastructure used for cellular telephony to send/receive packets through a base station operated by the cellular network provider. Third generation (3G) wireless and fourth generation (4G) of wide-area network are being deployed. *LTE* ("Long-Term Evolution") has its root in 3G and can potentially achieve rates in excess of 10 Mbps.
 
 ### 1.2.2 Physical Media
- le livre en parle en détail mais nous n'en avons pas parlé en cours
 
 A bit, when traveling from source to destination, passes through a series of transmitter-receiver pairs, for each pair, the bit is sent by propagating electromagnetic waves or optical pulses across a **physical medium**. This can take many shapes and forms and doesn't have to be of the same type for each transmitter-receiver pair along the path.
 Physical media fall into two categories:
@@ -81,7 +77,7 @@ Between source and destination, each packet travels through communication links 
 Packets are transmitted over each communication link at a rate equal to the *full* transmission rate of the link. So, if a source end system or a packet switch is send a packet of L bits over a link with transmission rate R bits/sec, then the time to transmit the packet is L/R seconds.
 
 #### Store-and-forward Transmission
-Most packet switches use **store-and-forward transmission** at the inputs to the links. Store-and-forward transmission means that the packet switch must receive the entire packet before it can begin to transmit the first bit of the packet onto the outbound link. The link must **buffer** ("store") the packet's bits and only after the router has received all of the packet's bits can it begin to transmit ("forward") the packet onto the outbound link.
+Most packet switches use **store-and-forward transmission** at the inputs to the links. Store-and-forward transmission means that the packet switch must receive the entire packet before it can begin to transmit the first bit of the packet onto the outbound link. The link must **buffer** (*store*) the packet's bits and only after the router has received all of the packet's bits can it begin to transmit (*forward*) the packet onto the outbound link.
 
 #### Queuing Delays and Packet Loss
 Each packet switch has multiple links attached to it. For each attached link, the packet switch has an **output buffer** (or **output queue**) which stores packets that the router is about to send into that link.
