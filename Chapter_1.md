@@ -107,7 +107,7 @@ Much of the evolution of the structure of the Internet is driven by economics an
 
 Today's Internet is complex, consisting of a dozen or so tier-1 ISPs and hundreds of thousands of lower-tier ISPs. The ISPs are diverse in their coverage, with some spanning multiple continents and oceans, and others limited to narrow geographic regions. The lower-tier ISPs connect to the higher-tier ISPs and the higher-tier ISPs interconnect with one another. Users and content providers are customers of lower-tier ISPs and lower-tier ISPs are customers of higher-tier ISPs. Recently, major content providers (Google) have also created their own networks and connect directly into lower-tier ISPs where possible.
 
-![network_of_networks](network_of_networks.png)
+![network_of_networks](./network_of_networks.png)
 
 ## 1.4 Delay, Loss and Throughput in Packet-Switched Networks
 
@@ -118,7 +118,7 @@ As a packet travels from one node (host or router) to the subsequent host along 
 
 #### Types of Delay
 
-![type_of_delays](type_of_delays.png)
+![type_of_delays](./type_of_delays.PNG)
 
 ##### Processing Delay
 The **processing delay** consists of the time required to examine the packet's header and determine where to direct the packet. It may also include other factors, such as the time needed to check for bit-level errors occurred during transmission.
@@ -130,13 +130,13 @@ At the queue, the packet experiences a **queuing delay** as it waits to be trans
 Typically of the order of microseconds or milliseconds.
 
 ##### Transmission delays
-If the length of the packet is *L* bits, and the **transmission rate** of the link is *R* bits/sec, then the **transmission delay** is *L/R*.
+If the length of the packet is `L` bits, and the **transmission rate** of the link is `R` bits/sec, then the **transmission delay** is `L/R`.
 This is the amount of time required to push (transmit) all of the packet's bits into the link.
 Typically on the order of microseconds to milliseconds.
 
 ##### Propagation Delay
 The time required to propagate a bit from the beginning of the link to the next router is the **propagation delay**. The bit propagates at the propagation speed of the link, which depends on the physical medium of the link.
-The propagation delay is the distance between two routers divided by the propagation speed of the link.
+The propagation delay is the distance between two routers `d` divided by the propagation speed of the link. `s` *(~2x10^8 m/sec)*
 
 ##### Total nodal delay
 it is the summation of the previous delays
@@ -156,7 +156,7 @@ Let's now consider the **total delay, from source to destination** (not only the
 ### 1.4.4 Throughput in Computer Networks
 Another critical performance measure in computer networks is *end-to-end throughput*.
 The **instantaneous throughput** at any instant of time is the rate (in bits/sec) at which host B is receiving a file.
-If the file consists of *F* bits and the transfers takes *T* seconds to transfer the whole file, then the **average throughput** of the file is *F/T bits/sec*.
+If the file consists of `F` bits and the transfers takes `T` seconds to transfer the whole file, then the **average throughput** of the file is `F/T` bits/sec.
 For a simple two-link network, the throughput is the min of all the throughputs, that is the transmission rate of the **bottleneck link**.
 Therefore, the constraining factor for throughput in today's Internet is typically the *access network*.
 
@@ -167,9 +167,11 @@ A layered architecture allows us to discuss a well-defined, specific part of a l
 
 #### Protocol Layering
 To provide structure to the design of network protocols, the network designers organize protocols in **layers**. **Each protocol belongs to one of the layers**. We are interested in the **services** that a layer offers to the layer above, **service model** of a layer.
-When taken together, the protocols of the various layers are called the **protocol stack**. The Internet protocol stack consists of five layers:
+When taken together, the protocols of the various layers are called the **protocol stack**. The Internet protocol stack consists of five (seven - ISO/OSI reference model) layers:
 
  - Application
+ - Presentation (ISO/OSI reference model)
+ - Session (ISO/OSI reference model)
  - Transport
  - Network
  - Link
@@ -180,27 +182,33 @@ Where network applications and their applications-layer protocols reside.
 The Internet's application layer includes many protocols: HTTP, SMTP, FTP, DNS.
 An application-layer protocol is distributed over multiple end systems, with the application in one end system using the protocol to exchange packets of information with the application in another end system. This packet of information at the application layer is called **message**.
 
+##### Presentation Layer
+Allow applications to interpret meaning of data, e.g., encryption, compression, machine-specific conventions.
+
+###### Session Layer
+synchronization, checkpointing, recovery of data exchange.
+Internet stack “missing” (presentation & session) layers! these services, if needed, must be implemented in application.
+
 ##### Transport Layer
 It transports application-layer messages between application endpoints.
 In the Internet there are two transport protocols: TCP and UDP.
-TCP provides a connection-oriented service to its application: the service includes guaranteed delivery of application-layer messages to the destination and flow control unit. TCP also breaks long messages into shorter segments and provides a **congestion-control mechanism**, so that a source throttles its transmission rate when the network is congested.
-HTTP and SMTP use TCP
+TCP provides a **connection-oriented** service to its application: the service includes **guaranteed delivery** of application-layer messages to the destination and flow control unit. TCP also breaks long messages into shorter segments and provides a **congestion-control mechanism**, so that a source throttles its transmission rate when the network is congested.
+HTTP and SMTP use *TCP*
 
-UDP provides a connectionless service to its applications: it's a no-frills service that provides no guarantees, no reliability, no flow control and no congestion control.
+UDP provides a connectionless service to its applications: it's a no-frills service that provides **no guarantees, no reliability, no flow control and no congestion control**.
 A transport-layer packet is called **segment**
-Skype uses UDP (speed required)
+Skype uses UDP *(speed required)*
 
 ##### Network Layer
 It is responsible for moving network-layer packets known as **datagrams** from one host to another.
 The Internet's network layer includes the IP Protocol. There is only one IP Protocol and all the Internet components that have a network layer must run it.
-The Internet's network layer also contains routing protocols that determine the routes that datagrams take between sources and destinations.
-The Internet has many routing protocols.
-Often it is simply referred to as the IP protocols, forgetting that it includes routing too.
+The Internet's network layer also contains many **routing protocols** 
+Often it is simply referred to as the IP protocols.
 
 ##### Link Layer
 To move a packet from one node to the next, the network layer relies on the services of the link layer.
 The services provided by the link layer depend on the specific link-layer protocol that is employed over the link.
-Examples are Ethernet, WiFi.
+Examples are *Ethernet, WiFi*.
 We will refer to the link-layer packets as **frames**
 
 ##### Physical Layer
@@ -208,12 +216,12 @@ The job of the physical layer is to move the individual bits within the frame fr
 The protocols are link dependent and further depend of the actual transmission medium of the link.
 
 ### 1.5.2 Encapsulation
+
+![switches_link_layers](./switches_link_layers.PNG)
 Routers and link-layer switches are both packet switches but routers and link-layer switches do not implement all of the layers in the protocol stack: link-layer switches implement Physical and Link while router add the Network Layer too.
 
 From the Application Layer, the message passes to the transport layer, which appends additional information to it (the **Header**) that will be used by the receiver-side transport layer. The transport layer then adds its own header and passes the datagram to the link layer which adds it own link-layer header information.
 Thus, we see that at each layer, a packet has two types of fields: **header fields** and a **payload field**, the payload typically being the packet from the layer above.
-
-The process of encapsulation can be more complex: for example a large message may be divided into multiple transport-layer segments, which will be divided into multiple datagrams....
 
 ## 1.6 Networks Under Attack
 
