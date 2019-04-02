@@ -185,7 +185,7 @@ An application-layer protocol is distributed over multiple end systems, with the
 ##### Presentation Layer
 Allow applications to interpret meaning of data, e.g., encryption, compression, machine-specific conventions.
 
-###### Session Layer
+##### Session Layer
 synchronization, checkpointing, recovery of data exchange.
 Internet stack “missing” (presentation & session) layers! these services, if needed, must be implemented in application.
 
@@ -218,6 +218,7 @@ The protocols are link dependent and further depend of the actual transmission m
 ### 1.5.2 Encapsulation
 
 ![switches_link_layers](./switches_link_layers.PNG)
+
 Routers and link-layer switches are both packet switches but routers and link-layer switches do not implement all of the layers in the protocol stack: link-layer switches implement Physical and Link while router add the Network Layer too.
 
 From the Application Layer, the message passes to the transport layer, which appends additional information to it (the **Header**) that will be used by the receiver-side transport layer. The transport layer then adds its own header and passes the datagram to the link layer which adds it own link-layer header information.
