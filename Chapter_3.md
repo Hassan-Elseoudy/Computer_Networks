@@ -146,7 +146,7 @@ In a Go-Back-N protocol, acknowledgements are **cumulative**: if sender receives
 
 ![Alt text](./GBN.JPG)
 
-![Alt text](./GBN_Sender.JPG)
+![Alt text](./GBN_Sender.PNG)
 
 ![Alt text](./GBN_Reciever.PNG)
 
@@ -187,11 +187,10 @@ TCP therefore splits data into smaller chunks and pairs each chunk of client dat
  - 4 bit **header length field**. The TCP header can be of a variable length due to the TCP options field (usually empty therefore usual length is 20 bytes)
  - **options field** used to negotiate MSS or as a window scaling factor for use in high speed networks.
  - **flag field**:
-* **ACK** used to indicate that the segment contains an acknowledgement for a segment that has been successfully received.
-*  
-* **RST, SYN, FIN** for connection setup and teardown
-* **PSH** indicates that the receiver should pass the data to upper layer immediately
-* **URG** indicates that there is data in the segment that the sending side upper layer has marked as urgent.
+	* **ACK** used to indicate that the segment contains an acknowledgement for a segment that has been successfully received.
+	* **RST, SYN, FIN** for connection setup and teardown
+	* **PSH** indicates that the receiver should pass the data to upper layer immediately
+	* **URG** indicates that there is data in the segment that the sending side upper layer has marked as urgent.
 
 #### Sequence Numbers and Acknowledgment Numbers
 TCP views data as *an unstructured, but ordered, stream of bytes* and TCP's use of sequence numbers reflects this view: sequence numbers are over the stream of bytes and not over the series of transmitted segments.
@@ -213,7 +212,7 @@ Most TCP implementations take one `SampleRTT` at a time: at any point in time, t
 TCP **never computes a `SampleRTT` for a segment that has been retransmitted**, only for segments transmitted once.
 In order to estimate a typical RTT, TCP keeps an average called `EstimatedRTT` of the `SampleRTT` values. Upon obtaining a new `SampleRTT` TCP updates this estimation according to the formula:
 
-<img align="center" src="//tex.s2cms.ru/svg/%20EstimatedRTT%20%3D%20(1%20-%20a)%20*%20EstimatedRTT%20%2B%20a%20*%20SampleRTT%20" alt=" EstimatedRTT = (1 - a) * EstimatedRTT + a * SampleRTT " />
+<img align="center" src="https://tex.s2cms.ru/svg/%20EstimatedRTT%20%3D%20(1%20-%20a)%20*%20EstimatedRTT%20%2B%20a%20*%20SampleRTT%20" alt=" EstimatedRTT = (1 - a) * EstimatedRTT + a * SampleRTT " />
 
  where usually `a = 1/8 = 0.125`
 
@@ -221,13 +220,13 @@ We note that this weighted average puts more weight on recent samples than on ol
 
 It is also useful to having an estimate of the *variability of the RTT*. We can measure how much `SampleRTT` typically deviates from `EstimatedRTT`:
 
-<img align="center" src="//tex.s2cms.ru/svg/%20DevRTT%20%3D%20(1%20-%20b)%20*%20DevRTT%20%2B%20b*%20%7C%20SampleRTT%20-%20EstimatedRTT%20%7C%20" alt=" DevRTT = (1 - b) * DevRTT + b* | SampleRTT - EstimatedRTT | " />
+<img align="center" src="https://tex.s2cms.ru/svg/%20DevRTT%20%3D%20(1%20-%20b)%20*%20DevRTT%20%2B%20b*%20%7C%20SampleRTT%20-%20EstimatedRTT%20%7C%20" alt=" DevRTT = (1 - b) * DevRTT + b* | SampleRTT - EstimatedRTT | " />
 
 We note that this is an `EWMA` of the difference of estimated and last measured RTT. The recommended value for b is `b = 0.25`
 
 #### Setting and Managing the Retransmission Timeout Interval
 
-<img align="center" src="//tex.s2cms.ru/svg/%20TimeoutInterval%20%3D%20EstimatedRTT%20%2B%204%20*%20DevRTT%20" alt=" TimeoutInterval = EstimatedRTT + 4 * DevRTT " />
+<img align="center" src="https://tex.s2cms.ru/svg/%20TimeoutInterval%20%3D%20EstimatedRTT%20%2B%204%20*%20DevRTT%20" alt=" TimeoutInterval = EstimatedRTT + 4 * DevRTT " />
 
 An initial `TimeoutInterval` value of `1` second is recommended.
 Also **when a timeout occurs, the value of `TimeoutInterval` is doubled** in order to avoid a premature timeout occurring for a subsequent segment that will soon be acknowledged. As soon as a segment is received and `EstimatedRTT` is updated, the `TimeoutInterval` is again computed using the formula above.
