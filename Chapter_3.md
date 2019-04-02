@@ -2,10 +2,19 @@
 
 ## 3.1 Introduction and Transport-Layer Services
 
-A transport-layer protocol provides for **logical communication** (as if the hosts running the processes were directly connected) between application processes running on different hosts. Application processes use the logical communication provided by the transport layer to send messages to each other, free from the worry of the details of the physical infrastructure used.
+A transport-layer protocol provides for **logical communication** (as if the hosts running the processes were directly connected) between application processes running on different hosts. _Application_ processes use the logical communication provided by the transport layer to send messages to each other, *free* from the worry of the details of the physical infrastructure used.
 **Transport-layer protocols are implemented in the end systems but not in network routers**.
-On the sending side, the transport layer converts the application messages into transport-layer packets, known as transport-layer **segments**. This is done by breaking them into smaller chunks and adding a transport-layer header to each chunk. The transport-layer then passes the segment to the network-layer packet at the sending end-system.
-On the receiving side, the network layer extracts the transport-layer segment from the datagram and passes the segment up to the transport-layer which then processes the received segment, making the data in the segment available to the received application.
+On the sending side, the transport layer converts the application messages into transport-layer packets, known as transport-layer **segments**. This is done by
+
+1. breaking them into **smaller chunks** 
+2. adding a **transport-layer header** to each chunk. 
+3. The transport-layer then passes the segment to the **network-layer** packet at the sending end-system.
+
+On the receiving side
+
+1. the network layer extracts the transport-layer segment from the **datagram**.
+2. passes the segment up to the **transport-layer** which then processes the received segment.
+3. making the data in the segment available to the received application.
 
 ### 3.1.1 Relationship Between Transport and Network Layers
 Whereas a transport-layer protocol provides logical communication between *processes* running on different hosts, a network-layer protocol provides logical communication between *hosts*.
@@ -13,10 +22,10 @@ Whereas a transport-layer protocol provides logical communication between *proce
 ### 3.1.2 Overview of the Transport Layer in the Internet
 A TCP/IP network (such as the Internet) makes two distinct transport-layer protocols available to the application layer:
 
- - **UDP** User Datagram Protocol, which provides an unreliable, connectionless service to the invoking application
- - **TCP** Transmission Control Protocol which provides a reliable, connection-oriented service to the invoking application.
+ - **UDP** *User Datagram Protocol*, which provides an **unreliable, connectionless service** to the invoking application
+ - **TCP** *Transmission Control Protocol* which provides a **reliable, connection-oriented service** to the invoking application.
 
-We need to spend a few words on the network-layer protocol: the Internet network-layer protocol is the IP (Internet Protocol). It provides a logical communication between hosts. The IP service model is a **best-effort delivery service**: it makes the best effort to deliver segments between hosts, *but it makes guarantees*:
+The Internet network-layer protocol is the IP (Internet Protocol). The IP service model is a **best-effort delivery service**: it makes the best effort to deliver segments between hosts, *but it makes guarantees*:
 
  - it doesn't guarantee segment **delivery**
  - it doesn't guarantee **orderly** delivery of segments
@@ -25,26 +34,24 @@ We need to spend a few words on the network-layer protocol: the Internet network
 Thus IP is said to be an **unreliable service**.
 Every host has **at least one network-layer address** a so-called IP address.
 
-UDP and TCP extend IP's delivery service between to end systems to a delivery service between two processes running on the end systems.
-Extend host-to-host delivery to process-to-process delivery is called **transport-layer multiplexing and demultiplexing**.
-UDP provides process-to-process delivery and error checking are the only services provided by UDP (therefore it is an unreliable service).
-TCP provides **reliable data transfer** using flow control, sequence numbers, acknowledgements and timers. **TCP thus converts IP's unreliable service between end systems into a reliable data transport service between processes**
-TCP also provides **congestion control** a service not really provided to the invoking application as it is to the Internet as a whole: it prevents any TCP connection from swamping the links and routers between communication hosts with an excessive amount of traffic giving each connection traversing a congested link an equal share of the bandwidth.
+Extending host-to-host delivery to process-to-process delivery is called **transport-layer multiplexing and demultiplexing**.
+UDP provides **process-to-process delivery and error checking** are the only services provided by UDP (therefore it is an unreliable service).
+TCP provides **reliable data transfer** using *flow control, sequence numbers, acknowledgements and timers*. **TCP thus converts IP's unreliable service between end systems into a reliable data transport service between processes**
+TCP also provides **congestion control**. it prevents any TCP connection from swamping the links and routers between communication hosts with an excessive amount of traffic giving each connection traversing a congested link an equal share of the bandwidth.
 
 ## 3.2 Multiplexing and Demultiplexing
-Here we'll cover m&d in the context of the Internet but **a multiplexing/demultiplexing service is needed for all computer networks**.
+**A multiplexing/demultiplexing service is needed for all computer networks**.
 
  - The job of delivering the data in a transport-layer segment to the correct socket is called **demultiplexing**.
  - The job of gathering data chunks at the source host from different sockets, encapsulating each data chunk with header information (which will be used in demultiplexing) to create segments and passing the segments to the networks layer is called **multiplexing**.
 
- Therefore sockets need to have unique identifiers and each segment needs to have special fields that indicate the socket to which the segment is delivered. These fields are the **source port number field** and the **destination port number field**. Each port number is a **16-bit number** ranging from 0 to 65535.
- Port numbers ranging from 0 to 1023 are called **well-known port numbers** and are restricted, reserved for us by well-known application protocols such as HTTP (80) and FTP (21). Designing an application, we should assign it a port number.
+ Therefore sockets need to have **unique** identifiers and each segment needs to have **special fields** that indicate the socket to which the segment is delivered. These fields are the **source port number field** and the **destination port number field**. Each port number is a **16-bit number** ranging from 0 to 65535.
+ Port numbers ranging from 0 to 1023 are called **well-known port numbers** and are **restricted, reserved** for us by well-known application protocols such as HTTP (80) and FTP (21). Designing an application, we should assign it a port number.
 
 #### Connectionless Multiplexing and Demultiplexing
 A UDP socket is fully identified by the **two-tuple**:
 `(destination IP address , destination port number)`
 therefore if two UDP segments have different source IP address and/or source port numbers but have the same destination IP address and destination port number, than the two segments will be directed to the same destination process via the same destination socket.
-The source port number serves as part of the "return address"
 
 #### Connection-oriented Multiplexing and Demultiplexing
 A TCP socket is identified by the **four-tuple**:
@@ -61,35 +68,38 @@ Routine:
  - With the TCP connection in place, client and server can now send data to each other
 
 The server may support many simultaneous TCP connection sockets, with each socket attached to a process and each socket identified by its own four-tuple.
-When a TCP segment arrives at the host, all the fours fields are used to demultiplex the segment to the appropriate socket.
 
 ##### Port Scanning
-Can be used both by attackers and system administrator to find vulnerabilities in the target or to know network applications are running in the network.
+Can be used both by attackers and system administrator to find weakness points in the target or to know network applications are running in the network.
 The most used port scanner is **nmap** free and open source.
 For TCP it scans port looking for port accepting connections, for UDP looking for UDP ports that respond to transmitted UDP segments.
 It then returns a list of open, closed or unreachable ports.
 A host running nmap can attempt to scan any target *anywhere* in the Internet
 
 #### Web Servers and TCP
-In a web server, all segments have destination port 80 and both the initial connection-establishment segments and the segments carrying HTTP request messages will have destination port 80, the server will distinguish clients using the source IP addresses and port numbers.
+In a web server, all segments have destination port **80**, the server will distinguish clients using the source IP addresses and port numbers.
 Moreover in today's high-performing Web, servers often use only one process and *create a new thread with a new connection soket for each new client connection*.
 
-If using persistent HTTP, client and server will exchange messages via the same server socket. If using non-persistent HTTP, a new TCP connection is created and closed for every request/response and hence a new socket is created and closed for every request/response.
+If using persistent HTTP, client and server will exchange messages via **the same server socket**. 
+If using non-persistent HTTP, **a new TCP connection** is created and closed for every request/response and hence a new socket is created and closed for every request/response.
 
 ## 3.3 Connectionless Transport: UDP
-UDP does multiplexing/demultiplexing, light error checking, nothing more. If the developer chooses UDP, the application is almost directly talking with IP.
-Note that with UDP there is no handshaking between sending and receiving transport-layer entities before sending a segment. For this reason UDP is said to be **connectionless**.
-DNS is an example of an application layer protocol that typically uses UDP: there is no handshaking and when a client doesn't receive a reply either it tries sending the query to another name server or it informs the invoking application that it can't get a reply. Why should a developer choose UDP?
+If the developer chooses UDP, the application is almost directly talking with IP.
+Note that with UDP there is **no handshaking** between sending and receiving transport-layer entities before sending a segment. For this reason UDP is said to be **connectionless**.
+**DNS** is an example of an application layer protocol that typically uses UDP: there is no handshaking and when a client doesn't receive a reply either it tries sending the query to another name server or it informs the invoking application that it can't get a reply. 
 
- - *Finer application-level controll over what data is sent and when*: as soon as the application passes data to UDP, UDP will package the data inside a segment and immediately pass it to the network layer. TCP's congestion control can delay the sending of the segment and will try sending the packet until this is received. In real time applications the sending rate is important, so we can trade off some data loss for some sending rate.
- - *No connection establishement* UDP justs send data without any formal preliminaries without introducing any delay, probably the reason why DNS runs over UDP.
- - *No connection state*: because a UDP application doesn't need to keep track of the users or to keep connections alive, it can typically support many more active clients than a TCP application
+Why should a developer choose UDP?
+
+ - *Finer application-level controll over what data is sent and when*
+ - *No connection establishement* 
+ - *No connection state*
  - *Small packet header overhead* TCP has 20 bytes of header overhead in every segment versus the 8 of UDP
 
-It is possible for an application developer to have reliable data transfer when using UDP. This can be done if reliability is built into the application itself (eg adding acknowledgement and retransmission mechanisms) but it is a nontrivial task and may keep the developer busy for a long time.
+It is possible for an application developer to have reliable data transfer when using UDP. This can be done if reliability is built into the application itself.
 
 ### 3.3.1 UDP Segment Structure
 ![Alt text](udp_segment.png)
+
 The UDP header has only four fields, each consisting of two bytes: source and destination port number, checksum and length (which specifies the number of bytes in the UDP segment, header + data). This last field is needed since the size of the data field may differ from one UDP segment to the next. The checksum is used for error detection.
 
 ### 3.3.2 UDP Checksum
@@ -100,17 +110,19 @@ At the send side, UDP performs the 1s complement of the sum of all the 16-bit (m
 UDP implements error detection according to the **end-end principle**: certain functionality (error detection in this case) must be implemented on an end-end basis: "functions placed at the lower levels may be redundant or of little value when compared to the cost of providing them at the higher level".
 
 ## 3.4 Principles of Reliable Data Transfer
-It is the responsibility of a **realiable data transfer protocol** to implement reliable data service: no transferred data bits are corrupted or lost and all are delivered in the order in which they were sent.
-We will consider the following actions:
+It is the responsibility of a realiable data transfer protocol to implement reliable data service: 
+
+1. no transferred data bits are corrupted 
+2. no transferred data bits are lost and 
+3. all transferred data bits are delivered in the order in which they were sent.
 
  - The sending side of the data transfer protocol will be invoked from above by a call to `rdt_send()`
  - On the receiving side `rdt_rcv()` will be called when a packet arrives while `deliver_data()` will be called when the `rdt` protocol wants to deliver data to the upper layer.
 
-We use the term packet rather than segment because the concepts explained here applies to computer networks in general.
-We will only consider the case of **unidirectional data transfer** that is data transfer from the sending to the receiving side. The case of reliable **bidirectional** (full-duplex) **data transfer** is not more difficult but more tedious to explain. Nonetheless sending and receiving side will need to transmit packets in *both directions*.
+We will only consider the case of **unidirectional data transfer** that is data transfer from the sending to the receiving side. 
 
 ### 3.4.1 Building a Reliable Data Transfer Protocol
-**Finite-state machine**s (FSM) are boring! And unlikely to be asked at the exam, therefore I decided not to cover them here.
+![Finite state machines](./fsm.PNG)
 
 ### 3.4.2 Pipelined Reliable Data Transfer Protocols
 In today's high-speed networks stop-and-wait protocols are simply not tolerable: we  cannot send one packet and wait for the ACK and then send the second one, it is inefficient as we can see computing the **utilization of the channel**:
@@ -127,12 +139,18 @@ Some consequences:
 Two basic approaches toward pipelined error recovery can be identified: **Go-Back-N** and **Selective Repeat**
 
 ### 3.4.3 Go-Back-N (GBN)
-The sender is allowed to send N packets (**sender window size = N**), the receiver has a window of size **1**.
+The sender is allowed to send `N` packets (**sender window size = N**), the receiver has a window of size **1**.
 If a segment from sender to receiver is lost, the receiver discards all the segments with sequence number greater than the sequence number of the dropped packet, answering with ACK with this sequence number. (no packet re-ordering)
 The sender will wait for ACK in order to move the window and send new packets. The wait is not infinite, after a certain time a timeout will occur and the sender will retransmit all the packets in the sending window.
 In a Go-Back-N protocol, acknowledgements are **cumulative**: if sender receives ACK3 he will know that all the packets from 0 to 3 have been received, even if hasn't received ACK2.
 
 ![Alt text](./GBN.JPG)
+
+![Alt text](./GBN_Sender.JPG)
+
+![Alt text](./GBN_Reciever.PNG)
+
+![Alt text](./GBN_Operation.PNG)
 
 ### 3.4.4 Selective Repeat
 When the window-size and bandwidth-delay product are both large, many packets can be in the pipeline and a single packet error can thus cause GBN to retransmit a large number of packets, many unnecessarily.
@@ -144,16 +162,20 @@ The receiver buffers out of order packets.
 
 ![Alt text](./Selective-Repeat.JPG)
 
+![Alt text](./SR_Operation.PNG)
+
 ## 3.5 Conncetion-Oriented Transport: TCP
+
 ### 3.5.1 The TCP Connection
-TCP is said to be **connection-oriented** because before one application process can begin to send data to another, the two processes must first "handshake" with each other. During the connection establishment, both sides of the connection will initialize many TCP state variables.
-TCP connection is not an end-to-end TDM or FDM circuit nor is it a virtual circuit as **the connection state resides entirely in the two end systems** and not in the intermediate network elements.
+TCP is said to be **connection-oriented** because before one application process can begin to send data to another, the two processes must first *handshake* with each other. During the connection establishment, both sides of the connection will initialize many TCP state variables.
+TCP connection is not an end-to-end TDM or FDM circuit nor is it a virtual circuit as **the connection state resides entirely in the two end systems** and **not** in the intermediate network elements.
+
 A TCP connection provides a **full-duplex service**: when a connection between process A and process B, application layer data can flow from A to B and, at the same time, from B to A.
-TCP is also **point-to-point**: a connection is always  between a *single sender* and a *single receiver*, no multicast possible.
+TCP is also **point-to-point**: a connection is always  between a *single sender* and a *single receiver*, **no multicast possible**.
 
 Establishment of the connection: the client first sends a special TCP segment, the server responds with a second special TCP segment and the client answer again with a third special TCP segment. The first two cannot contain a payload while the third can. Three segments: **three-way handshake**.
 Both the sender and the receiver have buffers that are set up during the handshake.
-The maximum amount if data that can be grabbed and placed in a segment is limited by the **maximum segment size (MSS)**.
+The maximum amount of data that can be grabbed and placed in a segment is limited by the **maximum segment size (MSS)**.
 TCP therefore splits data into smaller chunks and pairs each chunk of client data with a TCP header thereby forming **TCP segments** which are passed down to the network layer. When TCP receives a segment at the other end, the segment's data is placed in the TCP connection's receive buffer. **Each side of the connection has its own send buffer and its own receive buffer**
 
 ### 3.5.2 TCP Segment Structure
@@ -164,11 +186,12 @@ TCP therefore splits data into smaller chunks and pairs each chunk of client dat
  - 16 bit **receive window** used for flow control, indicates the number of bytes that a receiver is willing to accept
  - 4 bit **header length field**. The TCP header can be of a variable length due to the TCP options field (usually empty therefore usual length is 20 bytes)
  - **options field** used to negotiate MSS or as a window scaling factor for use in high speed networks.
- - **flag field**: 6 bits:
- 	1. ACK used to indicate that the value carried in the acknowledgement field is valid, that is the segment contains an acknowledgement for a segment that has been successfully received.
-	2. ,  3. and 4. **RST, SYN, FIN** for connection setup and teardown
-	5. **PSH** indicates that the receiver should pass the data to upper layer immediately
-	6. URG indicates that there is data in the segment that the sending side upper layer has marked as urgent.
+ - **flag field**:
+* **ACK** used to indicate that the segment contains an acknowledgement for a segment that has been successfully received.
+*  
+* **RST, SYN, FIN** for connection setup and teardown
+* **PSH** indicates that the receiver should pass the data to upper layer immediately
+* **URG** indicates that there is data in the segment that the sending side upper layer has marked as urgent.
 
 #### Sequence Numbers and Acknowledgment Numbers
 TCP views data as *an unstructured, but ordered, stream of bytes* and TCP's use of sequence numbers reflects this view: sequence numbers are over the stream of bytes and not over the series of transmitted segments.
@@ -177,8 +200,7 @@ EX 500,000 bytes, MSS = 1,000 bytes => 500 segments are created. First is number
 
 **The acknowledgement number** *that Host A puts in its segment is the sequence number of the next byte Host A is expecting from Host B*.
 TCP is said to provide **cumulative acknowledgements**: if sender receives ACK 536 he will know that all the bytes from 0 to 535 have been well received.
-What does a host do when it receives out-of-order segments? The receiver buffers the out-of-order bytes and waits for the missing bytes to fill in the gaps.
-Usually both sides of a TCP connection randomly choose an initial sequence number **randomly** both for security and for minimizing the possibility that a segment that is still present in the network from an earlier, already terminated connection between two hosts is mistaken for a valid segment in a later connection between these same two hosts.
+Usually both sides of a TCP connection randomly choose an initial sequence number **randomly** both for security and for minimizing the possibility that a segment that is still present in the network.
 
 ### 3.5.3 Round-Trip Time Estimation and Timeout
 
@@ -191,22 +213,23 @@ Most TCP implementations take one `SampleRTT` at a time: at any point in time, t
 TCP **never computes a `SampleRTT` for a segment that has been retransmitted**, only for segments transmitted once.
 In order to estimate a typical RTT, TCP keeps an average called `EstimatedRTT` of the `SampleRTT` values. Upon obtaining a new `SampleRTT` TCP updates this estimation according to the formula:
 
-`EstimatedRTT = (1 - a) * EstimatedRTT + a * SampleRTT`
+<img align="center" src="//tex.s2cms.ru/svg/%20EstimatedRTT%20%3D%20(1%20-%20a)%20*%20EstimatedRTT%20%2B%20a%20*%20SampleRTT%20" alt=" EstimatedRTT = (1 - a) * EstimatedRTT + a * SampleRTT " />
 
- where usually a = 1/8 = 0.125
+ where usually `a = 1/8 = 0.125`
 
 We note that this weighted average puts more weight on recent samples than on old samples. In statistics such an average is called an **exponential weighted moving average (EWMA)**.
+
 It is also useful to having an estimate of the *variability of the RTT*. We can measure how much `SampleRTT` typically deviates from `EstimatedRTT`:
 
-`DevRTT = (1 - b) * DevRTT + b* | SampleRTT - EstimatedRTT |`
+<img align="center" src="//tex.s2cms.ru/svg/%20DevRTT%20%3D%20(1%20-%20b)%20*%20DevRTT%20%2B%20b*%20%7C%20SampleRTT%20-%20EstimatedRTT%20%7C%20" alt=" DevRTT = (1 - b) * DevRTT + b* | SampleRTT - EstimatedRTT | " />
 
-We note that this is an EWMA of the difference of estimated and last measured RTT. The recommended value for b is b = 0.25
+We note that this is an `EWMA` of the difference of estimated and last measured RTT. The recommended value for b is `b = 0.25`
 
 #### Setting and Managing the Retransmission Timeout Interval
 
-`TimeoutInterval = EstimatedRTT + 4 * DevRTT`
+<img align="center" src="//tex.s2cms.ru/svg/%20TimeoutInterval%20%3D%20EstimatedRTT%20%2B%204%20*%20DevRTT%20" alt=" TimeoutInterval = EstimatedRTT + 4 * DevRTT " />
 
-An initial `TimeoutInterval` value of 1 second is recommended.
+An initial `TimeoutInterval` value of `1` second is recommended.
 Also **when a timeout occurs, the value of `TimeoutInterval` is doubled** in order to avoid a premature timeout occurring for a subsequent segment that will soon be acknowledged. As soon as a segment is received and `EstimatedRTT` is updated, the `TimeoutInterval` is again computed using the formula above.
 
 ### 3.5.4 Reliable Data Transfer
@@ -216,6 +239,8 @@ We supposed until now that an individual timer was associated with each transmit
  1. Upon receiving data from the application layer, TCP encapsulates it in a segment and passes to the segment to IP. If the timer is not running for some other segment, TCP starts it when the segment is passed to IP, the timer expiration interval being `TimeoutInterval`
  2. If the timeout occurs, TCP responds by **retransmitting the segment that caused the timeout** and by restarting the timer
  3. An valid acknowledgement segment is received: TCP compares the ACK `y` value with its `sendBase` (the sequence number of the oldest unacknowledged byte). If `y > sendBase` then ACK is acknowledging one or more previously unacknowledged segments (cumulative acknowledgement). The `sendBase` variable is updated and the timer is restarted if there are not-yet-acknowledged segments.
+
+ ![Alt text](./TCP_.PNG)
 
 #### Doubling the Timeout Interval
 
