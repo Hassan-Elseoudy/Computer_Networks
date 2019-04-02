@@ -231,7 +231,8 @@ E-mail is an asynchronous communication medium—people send and read messages w
 having to coordinate with other people’s schedules. it's fast, easy to distribute, and inexpensive. Modern e-mail has 
 many powerful features, including messages with attachments, hyperlinks, HTML formatted text, and embedded photos.
 Let’s take a high-level view of the Internet mail system and its key components.
-![Alt text][./1_e-mail_system.JPG]
+
+![Alt text](./1_e-mail_system.JPG)
 
 
 We see from this diagram that it has three major components: **user agents, mail servers, and the 
@@ -542,7 +543,7 @@ Having one single global DNS server would be simple, but it's not realistic beca
 #### A Distributed, Hierarchical Database
 The DNS uses a large number of servers, organized in a hierarchical fashion and distributed around the world.
 
-![Alt text][./dns-servers.png]
+![Alt text](./dns-servers.png)
 
 The three classes of DNS servers:
 
@@ -552,7 +553,7 @@ The three classes of DNS servers:
 
 Finally there are **local DNS servers** which is central to the DNS architecture. They are hosted by ISPs. When a hosts connects to one of these, the local DNS server provides the host with the IP addresses of one or more of its local DNS servers. Requests can ho up to the root DNS servers and back down.
 
-![Alt text][./distributedDNS.png]
+![Alt text](./distributedDNS.png)
 
 We can have both **recursive** and **iterative queries**.
 In **recursive queries** the user sends the request its nearest DNS which will ask to a higher-tier server, which will ask to lower order... the chain goes on until it reaches a DNS that can reply, the reply will follow the inverse path that the request had.
