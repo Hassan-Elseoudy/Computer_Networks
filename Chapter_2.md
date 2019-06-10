@@ -622,7 +622,9 @@ When a peer receives some file data, it can use its own upload capacity to redis
 We obtain:
 
 <img src="https://tex.s2cms.ru/svg/%20D_%7BP2P%7D%20%3D%20%5Cmax%20%5Cleft%5C%7B%20%5Cfrac%7BF%7D%7Bu_s%7D%20%2C%20%5Cfrac%7BF%7D%7Bd_%7Bmin%7D%7D%20%2C%20%5Cfrac%7BNF%7D%7Bu_s%20%2B%20%5Csum_%7Bi%3D1%7D%5EN%20u_j%7D%20%5Cright%5C%7D%20" alt=" D_{P2P} = \max \left\{ \frac{F}{u_s} , \frac{F}{d_{min}} , \frac{NF}{u_s + \sum_{i=1}^N u_j} \right\} " />
+
 #### BitTorrent
+
 In BitTorrent the collection of all peers participating in the distribution of a particular file is called a *torrent*. Peers in a torrent download equal-size *chunks* of the file from one another with a typical chunk size of 256 KBytes.
 At the beginning a peer has no chunks, it accumulates more and more chunks over time. While it downloads chunks it also uploads chunks to other peers. Once a peer has acquired the entire file it may leave the torrent or remain in it and continue to upload chunks to other peers (becoming a *seeder*). Any peer can leave the torrent at any and later rejoin it.
 
