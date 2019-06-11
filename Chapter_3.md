@@ -319,9 +319,15 @@ A host receives a TCP segment whose port number or source IP address do not matc
 
 ### 3.6.1 The Causes and the Costs of Congestion
 
-#### Scenario 1: Two Senders, A Router with Infinite Buffers
-A -> D, B -> C, A and B connect to the Internet through the same router, B and C connect to the Internet through the same router
-(pas envie)
+![Alt text](./Scenario1.PNG)
+
+![Alt text](./Scenario2-a.PNG)
+
+![Alt text](./Scenario2-c.PNG)
+
+![Alt text](./Scenario2-b.PNG)
+
+![Alt text](./Scenario3.PNG)
 
 
 ## 3.7 TCP Congestion Control
