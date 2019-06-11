@@ -281,7 +281,7 @@ A keeps track of two variables:
 	1. `LastByteSent`
 	2. `LastByteAcked`
 
-Through the connection's life A must make sure that `LastByteSent - LastByteSent <= rwnd`
+Through the connection's life A must make sure that `LastByteSent − LastByteAcked <= rwnd`
 
 If B's buffer becomes full, he sends `rwnd = 0`.  If *B has nothing to send to A*, when the application process empties B's buffer, TCP does not send a new segment with the new value of `rwnd` to A (TCP sends to A only if it needs to send data or if it needs to send an ACK).
 Therefore A is never informed that B's buffer has some free space and **he is blocked and can trasmit no more data**.
