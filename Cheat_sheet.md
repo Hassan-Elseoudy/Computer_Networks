@@ -52,3 +52,4 @@
 | **TDM**   | Time Divison Multiplexing                               |different channels transmitted in different time slots|
 | **MIB**   | Management Information Base                             |between server and agent.|
 | **CRC**   | Cyclic redundancy check                                 |more powerful error-detection coding|
+| **DOCSIS**   | data over cable service interface spec       |FDM over upstream, downstream frequency channels,TDM upstream: some slots assigned, some have contention|
